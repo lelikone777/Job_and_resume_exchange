@@ -69,6 +69,47 @@ export const cards = [
     status: 'vacancies',
     url: '/courier'
   },
-
+  {
+    id: 11,
+    title: 'Создание гайдов',
+    img: 'img/img11.jpg',
+    status: 'resumes',
+    url: '/guide-developer'
+  },
+  {
+    id: 12,
+    title: 'Бухгалтер',
+    img: 'img/img12.jpg',
+    status: 'resumes',
+    url: '/accountant'
+  },
+  {
+    id: 13,
+    title: 'Инженер',
+    img: 'img/img13.jpg',
+    status: 'resumes',
+    url: '/engineer'
+  },
+  {
+    id: 14,
+    title: 'Программист',
+    img: 'img/img14.jpg',
+    status: 'resumes',
+    url: '/programmer'
+  },
+  {
+    id: 15,
+    title: 'Консультант',
+    img: 'img/img15.jpg',
+    status: 'resumes',
+    url: '/consultant'
+  },
+  {
+    id: 16,
+    title: 'Менеджер',
+    img: 'img/img16.jpg',
+    status: 'resumes',
+    url: '/manager'
+  }
 ]
-    // status: 'resumes',
+

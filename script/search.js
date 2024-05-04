@@ -1,4 +1,5 @@
 import { cards } from "./data.js";
+
 const form = document.querySelector('form.search');
 const searchInput = document.getElementById('search-input');
 const searchResults = document.querySelector('.search-results');
@@ -6,20 +7,46 @@ const cardsTitles = cards.map(card => card.title);
 const tabsHeader = document.querySelector('.tabs-header');
 const tabsHeaderItems = document.querySelectorAll('.tabs-header-item');
 const tabsBody = document.querySelector('.card-list');
-const tabsBodyItems = document.querySelectorAll('.card-item');
 const searchButton = document.querySelector('.search-box button');
-tabsHeaderItems[0].classList.add('active');
+const tags = document.querySelector('.tags');
 
-searchInput.addEventListener('input', () => {
-  const searchText = searchInput.value.trim().toLowerCase();
-  if (searchText === '') {
-    searchResults.innerHTML = '';
-    return;
-  }
-  const filteredTitles = cardsTitles.filter(title => title.toLowerCase().includes(searchText));
-  renderSearchResults(filteredTitles, searchText);
+tabsHeaderItems[0].classList.add('active');
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
 });
 
+// Функция для фильтрации карточек по статусу и поиску
+function filterCardsByStatusAndSearch(status, searchText) {
+  return cards.filter(card => card.status === status && card.title.toLowerCase().includes(searchText));
+}
+
+// Функция для создания карточек по статусу
+function createCards(status, searchText) {
+  tabsBody.innerHTML = ''; // Очистить содержимое перед созданием новых карточек
+
+  const filteredCards = filterCardsByStatusAndSearch(status, searchText);
+  const limit = 4; // Ограничение на количество карточек
+
+  const filteredCardsLimited = filteredCards.slice(0, limit);
+  filteredCardsLimited.forEach(card => {
+    const cardItem = document.createElement('li');
+    cardItem.classList.add('card-item');
+    cardItem.innerHTML = `
+      <a href="${card.url}" class="card-link hover">
+        <img src="${card.img}" alt="${card.title}-image" class="card-img">
+        <span class="card-title">${card.title}</span>
+      </a>
+    `;
+    tabsBody.appendChild(cardItem);
+  });
+
+  // Проверка, содержит ли tabsBody какие-либо элементы, если нет, вывод сообщения "Ничего не найдено"
+  if (tabsBody.children.length === 0) {
+    tabsBody.innerHTML = '<div class="no-results">Ничего не найдено по вашему запросу в этой категории</div>';
+  }
+}
+
+// Функция для отображения результатов поиска
 function renderSearchResults(titles, searchText) {
   searchResults.innerHTML = '';
 
@@ -46,31 +73,37 @@ function renderSearchResults(titles, searchText) {
       searchResults.appendChild(resultItem);
     });
   }
+
+  // Проверка, содержит ли tabsBody какие-либо элементы, если нет, вывод сообщения "Ничего не найдено"
+  if (tabsBody.children.length === 0) {
+    tabsBody.innerHTML = '<div class="no-results">Ничего не найдено по вашему запросу в этой категории</div>';
+  }
 }
 
+tags.addEventListener('click', (event) => {
+  if (event.target.classList.contains('tags-item')) {
+    searchInput.value = event.target.textContent;
+  }
+});
+
+// Обработчик события нажатия на кнопку "Найти"
 searchButton.addEventListener('click', () => {
   const searchText = searchInput.value.trim().toLowerCase();
   searchResults.innerHTML = '';
-  // if (searchText === '') {
-  //   // Если searchInput пустой, добавить элемент "Ничего не найдено" в tabsBody
-  //   tabsBody.innerHTML = '<li class="no-results">Ничего не найдено</li>';
-  //   return;
-  // }
 
-  const filteredCards = cards.filter(card => card.title.toLowerCase().includes(searchText));
+  const activeTabId = document.querySelector('.tabs-header-item.active').id; // Получаем id активной вкладки
+
+  const filteredCards = filterCardsByStatusAndSearch(activeTabId, searchText);
 
   if (filteredCards.length === 0 || searchText === '') {
-    // Если ни одна карточка не соответствует введенному тексту, отобразить сообщение "Ничего не найдено"
-    tabsBody.innerHTML = '<div class="no-results">Ничего не найдено по вашему запросу</div>';
+    tabsBody.innerHTML = '<div class="no-results">Ничего не найдено по вашему запросу в этой категории</div>';
   } else {
-    // Создать карточки для найденных результатов
     tabsBody.innerHTML = ''; // Очищаем содержимое перед добавлением новых карточек
     filteredCards.forEach(card => {
       const cardItem = document.createElement('li');
       cardItem.classList.add('card-item');
-      cardItem.classList.add('card-item');
       cardItem.innerHTML = `
-        <a href="${card.url}" class="card-link">
+        <a href="${card.url}" class="card-link hover">
           <img src="${card.img}" alt="${card.title}-image" class="card-img">
           <span class="card-title">${card.title}</span>
         </a>
@@ -80,43 +113,32 @@ searchButton.addEventListener('click', () => {
   }
 });
 
-// Функция для создания карточек в зависимости от статуса
-const createCards = (status) => {
-  tabsBody.innerHTML = ''; // Очистить содержимое перед созданием новых карточек
-
-  const filteredCards = cards.filter(card => card.status === status);
-  filteredCards.forEach(card => {
-    const cardItem = document.createElement('li');
-    cardItem.classList.add('card-item');
-    cardItem.innerHTML = `
-      <a href="${card.url}" class="card-link">
-        <img src="${card.img}" alt="${card.title}-image"  class="card-img">
-        <span class="card-title">${card.title}</span>
-      </a>
-    `;
-    tabsBody.appendChild(cardItem);
-  });
-};
+// Обработчик события изменения значения в поле ввода поиска
+searchInput.addEventListener('input', () => {
+  const searchText = searchInput.value.trim().toLowerCase();
+  if (searchText === '') {
+    searchResults.innerHTML = '';
+    return;
+  }
+  const filteredTitles = cardsTitles.filter(title => title.toLowerCase().includes(searchText));
+  renderSearchResults(filteredTitles, searchText);
+});
 
 // Обработчик события клика на заголовке вкладок
 tabsHeader.addEventListener('click', (event) => {
   if (event.target.classList.contains('tabs-header-item')) {
-    // Удалить класс active у всех элементов заголовка
     tabsHeaderItems.forEach(item => {
       item.classList.remove('active');
     });
-    // Добавить класс active к элементу, на который был клик
     event.target.classList.add('active');
 
-    // Получить статус из класса активного элемента
     const status = event.target.id;
-    console.log(event.target.id)
 
-    // Создать карточки для выбранного статуса
-    createCards(status);
+    const searchText = searchInput.value.trim().toLowerCase();
+    createCards(status, searchText);
   }
 });
 
 // Создать карточки для текущего активного статуса при загрузке страницы
 const initialActiveStatus = document.querySelector('.tabs-header-item.active').id;
-createCards(initialActiveStatus);
+createCards(initialActiveStatus, '');
