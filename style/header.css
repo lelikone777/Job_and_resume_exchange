@@ -1,0 +1,28 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 16px;
+    font-family: "Prosto One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    cursor: pointer;
+}
+.logo-img {
+    background: #911016;
+    border-radius: 12px;
+    padding: 8px;
+    font-size: 19px;
+    line-height: 130%;
+    text-transform: capitalize;
+    color: #fff;
+}
+.logo-text {
+    font-size: 25px;
+    color: #911016;
+}

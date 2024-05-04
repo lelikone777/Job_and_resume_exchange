@@ -1,0 +1,27 @@
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.footer-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 20px;
+}
+.copyright {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 130%;
+    color: #948171;
+}
+.footer-nav a {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 130%;
+    color: #911016;
+}
+.footer-nav a:hover {
+    opacity: 0.9;
+    transition: all 0.3s ease;
+}

@@ -1,0 +1,86 @@
+.login {
+    position: relative;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.05);
+    background: #ffffff;
+    min-width: 188px;
+}
+
+
+.login select {
+    display: none; /*hide original SELECT element:*/
+}
+
+/*.login > .select-items:not(.select-hide) {*/
+.login:not(:has(>.select-items.select-hide)) {
+    border-radius: 16px 16px 0 0;
+}
+
+
+.select-selected {
+    padding: 12px 16px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.01em;
+    color: #364670;
+}
+
+/*style the arrow inside the select element:*/
+.select-selected:after {
+    position: absolute;
+    content: "";
+    top: 14px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: #364670 transparent transparent transparent;
+}
+
+/*point the arrow upwards when the select box is open (active):*/
+.select-selected.select-arrow-active:after {
+    border-color: transparent transparent #364670 transparent;
+    top: 7px;
+}
+
+/*style the items (options), including the selected item:*/
+.select-items div,.select-selected {
+    cursor: pointer;
+    user-select: none;
+}
+
+/*style items (options):*/
+.select-items {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    /*row-gap: 12px;*/
+    border-radius: 0 0 16px 16px;
+    /*padding: 12px 16px;*/
+    background-color: #ffffff;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    overflow: hidden;
+}
+.select-items div {
+    padding: 12px 16px;
+}
+
+.select-items:not(.select-hide) + .select-selected {
+    border-radius: 16px 16px 0 0;
+}
+
+/*hide the items when the select box is closed:*/
+.select-hide {
+    display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+    /*background-color: rgba(0, 0, 0, 0.1);*/
+    background-color: #911016;
+    color: #ffffff;
+}
