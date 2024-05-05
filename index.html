@@ -13,57 +13,47 @@
 <body>
 
 <div class="container">
-<div class="wrapper">
-    <div class="top">
-        <header>
-            <a href="/" class="logo hover">
-                <span class="logo-img">ИЗ</span>
-                <span class="logo-text">Институт запусков</span>
-            </a>
-            <div class="select-box login" id="login">
-                <label for="select-login" style="display: none"></label>
-                <select id="select-login">
-                    <option value="0">Войти</option>
-                    <option value="1">текст 1</option>
-                    <option value="2">текст 2</option>
-                    <option value="3">текст 3</option>
-                    <option value="4">текст 4</option>
-                </select>
-            </div>
-        </header>
-        <main>
-            <h1 class="title">Биржа вакансий и резюме</h1>
-            <form class="search">
-                <div class="tabs-header">
-                    <div class="tabs-header-item vacancies hover" id="vacancies">Вакансии</div>
-                    <div class="tabs-header-item resumes hover" id="resumes">Резюме</div>
-                </div>
-                <div class="search-box">
-                    <div class="search-input-wrapper">
-                        <label for="search-input" style="display: none"></label>
-                        <input class="search-input" id="search-input" type="text" placeholder="Услуга или специалист">
-                        <ul class="search-results"></ul>
+    <div class="wrapper">
+        <div class="top">
+            <header>
+                <a href="/" class="logo hover">
+                    <span class="logo-img">ИЗ</span>
+                    <span class="logo-text">Институт запусков</span>
+                </a>
+                <div class="select-box login" id="login"></div>
+            </header>
+            <main>
+                <h1 class="title">Биржа вакансий и резюме</h1>
+                <form class="search">
+                    <div class="tabs-header">
+                        <div class="tabs-header-item vacancies hover" id="vacancies">Вакансии</div>
+                        <div class="tabs-header-item resumes hover" id="resumes">Резюме</div>
                     </div>
-                    <button type="button">Найти</button>
-                </div>
-                <div class="tags">
-                    <div class="tags-item hover">Копирайтер</div>
-                    <div class="tags-item hover">Создание гайдов</div>
-                    <div class="tags-item hover">Курьер</div>
-                </div>
-                <ul class="card-list"></ul>
-            </form>
-        </main>
-    </div>
-
-    <footer>
-        <div class="copyright">© 2023 Институт запусков</div>
-        <div class="footer-nav">
-            <a href="#" class="hover">Политика конфиденциальности</a>
-            <a href="#" class="hover">Правовая информация</a>
+                    <div class="search-box">
+                        <div class="search-input-wrapper">
+                            <label for="search-input" style="display: none"></label>
+                            <input class="search-input" id="search-input" type="text" placeholder="Услуга или специалист">
+                            <ul class="search-results"></ul>
+                        </div>
+                        <button type="button">Найти</button>
+                    </div>
+                    <div class="tags">
+                        <div class="tags-item hover">Копирайтер</div>
+                        <div class="tags-item hover">Создание гайдов</div>
+                        <div class="tags-item hover">Курьер</div>
+                    </div>
+                    <ul class="card-list"></ul>
+                </form>
+            </main>
         </div>
-    </footer>
-</div>
+        <footer>
+            <div class="copyright">© 2023 Институт запусков</div>
+            <div class="footer-nav">
+                <a href="#" class="hover">Политика конфиденциальности</a>
+                <a href="#" class="hover">Правовая информация</a>
+            </div>
+        </footer>
+    </div>
 </div>
 
 <script type="module" src="script/index.js"></script>

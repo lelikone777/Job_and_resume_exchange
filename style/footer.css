@@ -8,6 +8,7 @@ footer {
     justify-content: space-between;
     align-items: center;
     column-gap: 20px;
+    row-gap: 16px;
 }
 .copyright {
     font-weight: 400;

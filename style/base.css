@@ -48,12 +48,10 @@ ul {
     line-height: 130%;
     color: #364670;
 }
-
 .hover {
     transition: opacity 0.3s ease;
     cursor: pointer;
 }
-
 .hover:hover {
     opacity: 0.9;
 }

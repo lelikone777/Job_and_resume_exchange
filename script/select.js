@@ -1,74 +1,83 @@
-// Look for any elements with the class "login":
-const selectBox = document.getElementsByClassName("select-box");
+import { selectLogin } from "./data.js";
+const selectBox = document.querySelector(".select-box");
+const loginSelected = document.createElement("div");
+loginSelected.classList.add("select-selected");
 
-for (let i = 0; i < selectBox.length; i++) {
-  const selectedElement = selectBox[i].getElementsByTagName("select")[0];
+function createSelectItem(parent, logo, title, child) {
+  const selectItem = document.createElement("div");
+  selectItem.classList.add("select-item");
+  selectItem.innerHTML = `<span class="select-item-image"><img src="${logo}" alt="${title}-image"></span><span class="select-item-text">${title}</span>`;
 
-  // For each element, create a new DIV that will act as the selected item:
-  const loginSelected = document.createElement("div");
-  loginSelected.classList.add("select-selected");
-  loginSelected.innerHTML = selectedElement.options[selectedElement.selectedIndex].innerHTML;
-  selectBox[i].appendChild(loginSelected);
+  // Проверяем, является ли родитель "select-selected" или содержит класс "select-selected":
+  const isParentSelectSelected = parent.classList.contains("select-selected") || parent.parentElement.classList.contains("select-selected");
 
-  // For each element, create a new DIV that will contain the option list:
-  const loginSelectItems = document.createElement("div");
-  loginSelectItems.classList.add("select-items", "select-hide");
-
-  for (let j = 0; j < selectedElement.length; j++) {
-    // For each option in the original select element,
-    // create a new DIV that will act as an option item:
-    const loginSelectedSingleItem = document.createElement("div");
-    loginSelectedSingleItem.innerHTML = selectedElement.options[j].innerHTML;
-
-    loginSelectedSingleItem.addEventListener("click", function (e) {
-      // When an item is clicked, update the original select box and the selected item:
-      const clickedOption = e.target.innerHTML;
-      const selectBox = this.parentNode.parentNode.getElementsByTagName("select")[0];
-      const selectedDiv = this.parentNode.previousSibling;
-
-
-      for (let k = 0; k < selectBox.length; k++) {
-        if (selectBox.options[k].innerHTML === clickedOption) {
-          selectBox.selectedIndex = k;
-          selectedDiv.innerHTML = clickedOption;
-          const sameSelected = this.parentNode.getElementsByClassName("same-as-selected");
-
-          for (let s = 0; s < sameSelected.length; s++) {
-            sameSelected[s].classList.remove("same-as-selected");
-          }
-
-          this.classList.add("same-as-selected");
-          break;
-        }
-      }
-
-      selectedDiv.click();
+  if (isParentSelectSelected) {
+    // Если родитель "select-selected" или содержит "select-selected", то удаляем все существующие "select-item":
+    const existingSelectItems = parent.querySelectorAll(".select-item");
+    existingSelectItems.forEach(item => {
+      item.remove();
     });
 
-    loginSelectItems.appendChild(loginSelectedSingleItem);
+    // Удаляем все существующие arrowImg:
+    const existingArrowImgs = parent.querySelectorAll(".select-arrow");
+    existingArrowImgs.forEach(arrowImg => {
+      arrowImg.remove();
+    });
+
+    const arrowImg = document.createElement("img");
+    arrowImg.classList.add("select-arrow");
+    arrowImg.src = "./img/arrow.svg";
+    parent.append(arrowImg);
   }
-
-  selectBox[i].appendChild(loginSelectItems);
-
-  loginSelected.addEventListener("click", function (e) {
-    // When the select box is clicked, close any other select boxes and open/close the current select box:
-    e.stopPropagation();
-    closeAllSelect(this);
-    this.nextSibling.classList.toggle("select-hide");
-    this.classList.toggle("select-arrow-active");
-  });
+  parent.prepend(selectItem);
 }
 
+createSelectItem(loginSelected, selectLogin[0].icon, selectLogin[0].title);
+
+selectBox.appendChild(loginSelected);
+
+const loginSelectItems = document.createElement("div");
+loginSelectItems.classList.add("select-items", "select-hide");
+
+selectLogin.forEach(item => {
+  const loginSelectedSingleItem = document.createElement("div");
+  loginSelectedSingleItem.classList.add("select-item");
+  loginSelectedSingleItem.innerHTML = `<span class="select-item-image"><img src="${item.icon}" alt="${item.title}-image"></span><span class="select-item-text">${item.title}</span>`;
+  loginSelectedSingleItem.addEventListener("click", function(e) {
+    // const clickedOption = `<span class="select-item-image"><img src="${item.icon}" alt="${item.title}-image"></span><span class="select-text">${item.title}</span>`;
+    const selectedDiv = this.parentNode.previousSibling;
+    // selectedDiv.innerHTML = clickedOption;
+    createSelectItem(selectedDiv, item.icon, item.title);
+    const sameSelected = this.parentNode.getElementsByClassName("same-as-selected");
+    for (let s = 0; s < sameSelected.length; s++) {
+      sameSelected[s].classList.remove("same-as-selected");
+    }
+    this.classList.add("same-as-selected");
+  });
+  loginSelectItems.appendChild(loginSelectedSingleItem);
+});
+
+loginSelectItems.firstChild.classList.add("same-as-selected");
+
+selectBox.appendChild(loginSelectItems);
+
+loginSelected.addEventListener("click", function(e) {
+  e.stopPropagation();
+  closeAllSelect(this);
+  this.nextSibling.classList.toggle("select-hide");
+  this.classList.toggle("select-arrow-active");
+  const arrowImg = this.querySelector(".select-arrow");
+  if (!loginSelectItems.classList.contains("select-hide")) {
+    arrowImg.style.transform = "rotate(180deg)";
+    arrowImg.style.transition = "transform 0.3s ease-in-out";
+  } else {
+    arrowImg.style.transform = "rotate(0deg)";
+  }
+});
+
 function closeAllSelect(element) {
-  // A function that will close all select boxes in the document, except the current select box:
   const selectItems = document.getElementsByClassName("select-items");
   const selectSelected = document.getElementsByClassName("select-selected");
-
-  Array.from(selectSelected).forEach((item, index) => {
-    if (element !== item) {
-      item.classList.remove("select-arrow-active");
-    }
-  });
 
   Array.from(selectItems).forEach((item) => {
     if (item.previousSibling !== element) {
@@ -76,8 +85,10 @@ function closeAllSelect(element) {
     }
   });
 }
-
-// If the user clicks anywhere outside the select box, then close all select boxes:
 document.addEventListener("click", () => {
   closeAllSelect(null);
 });
+
+
+
+

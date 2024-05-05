@@ -15,14 +15,12 @@ form.addEventListener('submit', (event) => {
   event.preventDefault();
 });
 
-// Функция для фильтрации карточек по статусу и поиску
 function filterCardsByStatusAndSearch(status, searchText) {
   return cards.filter(card => card.status === status && card.title.toLowerCase().includes(searchText));
 }
 
-// Функция для создания карточек по статусу
 function createCards(status, searchText) {
-  tabsBody.innerHTML = ''; // Очистить содержимое перед созданием новых карточек
+  tabsBody.innerHTML = '';
 
   const filteredCards = filterCardsByStatusAndSearch(status, searchText);
   const limit = 4; // Ограничение на количество карточек
@@ -40,13 +38,11 @@ function createCards(status, searchText) {
     tabsBody.appendChild(cardItem);
   });
 
-  // Проверка, содержит ли tabsBody какие-либо элементы, если нет, вывод сообщения "Ничего не найдено"
   if (tabsBody.children.length === 0) {
     tabsBody.innerHTML = '<div class="no-results">Ничего не найдено по вашему запросу в этой категории</div>';
   }
 }
 
-// Функция для отображения результатов поиска
 function renderSearchResults(titles, searchText) {
   searchResults.innerHTML = '';
 
@@ -74,7 +70,6 @@ function renderSearchResults(titles, searchText) {
     });
   }
 
-  // Проверка, содержит ли tabsBody какие-либо элементы, если нет, вывод сообщения "Ничего не найдено"
   if (tabsBody.children.length === 0) {
     tabsBody.innerHTML = '<div class="no-results">Ничего не найдено по вашему запросу в этой категории</div>';
   }
@@ -86,19 +81,18 @@ tags.addEventListener('click', (event) => {
   }
 });
 
-// Обработчик события нажатия на кнопку "Найти"
 searchButton.addEventListener('click', () => {
   const searchText = searchInput.value.trim().toLowerCase();
   searchResults.innerHTML = '';
 
-  const activeTabId = document.querySelector('.tabs-header-item.active').id; // Получаем id активной вкладки
+  const activeTabId = document.querySelector('.tabs-header-item.active').id;
 
   const filteredCards = filterCardsByStatusAndSearch(activeTabId, searchText);
 
   if (filteredCards.length === 0 || searchText === '') {
     tabsBody.innerHTML = '<div class="no-results">Ничего не найдено по вашему запросу в этой категории</div>';
   } else {
-    tabsBody.innerHTML = ''; // Очищаем содержимое перед добавлением новых карточек
+    tabsBody.innerHTML = '';
     filteredCards.forEach(card => {
       const cardItem = document.createElement('li');
       cardItem.classList.add('card-item');
@@ -113,7 +107,6 @@ searchButton.addEventListener('click', () => {
   }
 });
 
-// Обработчик события изменения значения в поле ввода поиска
 searchInput.addEventListener('input', () => {
   const searchText = searchInput.value.trim().toLowerCase();
   if (searchText === '') {
@@ -124,7 +117,6 @@ searchInput.addEventListener('input', () => {
   renderSearchResults(filteredTitles, searchText);
 });
 
-// Обработчик события клика на заголовке вкладок
 tabsHeader.addEventListener('click', (event) => {
   if (event.target.classList.contains('tabs-header-item')) {
     tabsHeaderItems.forEach(item => {
@@ -139,6 +131,5 @@ tabsHeader.addEventListener('click', (event) => {
   }
 });
 
-// Создать карточки для текущего активного статуса при загрузке страницы
 const initialActiveStatus = document.querySelector('.tabs-header-item.active').id;
 createCards(initialActiveStatus, '');

@@ -113,3 +113,30 @@ export const cards = [
   }
 ]
 
+export const selectLogin = [
+  {
+    id: 1,
+    title: 'Войти',
+    icon: 'img/login.svg',
+    url: '/login'
+  },
+  {
+    id: 2,
+    title: 'Регистрация',
+    icon: 'img/register.svg',
+    url: '/registration'
+  },
+  {
+    id: 3,
+    title: 'Личный кабинет',
+    icon: 'img/profile.svg',
+    url: '/profile'
+  },
+  {
+    id: 4,
+    title: 'Выход',
+    icon: 'img/logout.svg',
+    url: '/logout'
+  }
+]
+
