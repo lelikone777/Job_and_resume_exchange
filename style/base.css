@@ -20,7 +20,7 @@ body {
 .container {
     width: 100%;
     margin: 0 auto;
-    height: max-content;
+    height: 100%;
     max-width: 1840px;
     padding: 36px 90px 27px;
 }
